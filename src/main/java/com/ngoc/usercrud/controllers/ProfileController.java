@@ -15,13 +15,13 @@ public class ProfileController {
 
     //Try http://localhost:8080/profiles
     @GetMapping("/profiles")
-    public Iterable<Profile> getprofles(){
+    public Iterable<Profile> getProfiles(){
         return profileRepository.findAll();
     }
 
     //Try http://localhost/profile/2
     @GetMapping("/profile/{id}")
-    public Optional<Profile> getprofle(@PathVariable("id") int id){
+    public Optional<Profile> getProfile(@PathVariable("id") int id){
         return profileRepository.findById(id);
     }
 
