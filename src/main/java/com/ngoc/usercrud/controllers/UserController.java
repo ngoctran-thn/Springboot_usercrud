@@ -29,13 +29,27 @@ public class UserController {
         return userRepository.findById(id);
     }
     @PostMapping("/user")
+    //Use postman and url http://localhost/user, method POST and put {"id":4, "name":"Test1", "email":"kkkkktka@gmail.com","phone":"12345678", "profile":{"id":2}} in body
     public ResponseEntity<?> save(@RequestBody User user) {
-        Optional<Profile> optionalProfile = profileRepository.findById(user.getProfile().getId());
+        int profileId = user.getProfile().getId();
+        Optional<Profile> optionalProfile = profileRepository.findById(profileId);
         if (optionalProfile.isEmpty()) {
-            return new ResponseEntity<>("Profile ID " + user.getProfile().getId() + " not found.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Profile ID " + profileId + " not found.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         user.setProfile(optionalProfile.get());
-        return new ResponseEntity<User>(userRepository.save(user), HttpStatus.OK);
+        return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+    }
+
+    @PutMapping("/user")
+    //Use postman and url http://localhost/user, method PUT and put {"id":6, "name":"Test2", "email":"thjoo@gmail.com","phone":"09876543", "profile":{"id":2}} in body
+    public User update(@RequestBody User user){
+
+        return userRepository.save(user);
+    }
+    @DeleteMapping("/user")
+    //Use postman and url http://localhost/user, method DELETE and put {"id":6} in body
+    public void delete(@RequestBody User user){
+        userRepository.delete(user);
     }
 
 }
